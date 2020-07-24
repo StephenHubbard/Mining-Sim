@@ -165,12 +165,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   width: 100
-  height: 20
+  depth: 50
   minStoneHeight: 0
   maxStoneHeight: 7
   dirt: {fileID: 4340929093494044568, guid: 1e3984938191a624cb20f862b44df4ae, type: 3}
   grass: {fileID: 4340929093494044568, guid: ade396ac71a25c34f9c79b6b1a35c424, type: 3}
   stone: {fileID: 4340929093494044568, guid: ed1fcbcf751f7a04d8281a620d1c0c40, type: 3}
+  heightValue: 39.8
+  smoothnessHeight: 30
+  seed: 0
+  smoothCycles: 2
+  randFillPercent: 50
+  threshold: 4
 --- !u!1 &473195229
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,7 +398,7 @@ MonoBehaviour:
   m_ZDamping: 1
   m_TargetMovementOnly: 0
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenY: 0.4999999
   m_CameraDistance: 10
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
@@ -553,7 +559,7 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
+    m_Bias: 0.9
     m_NormalBias: 0.4
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
@@ -785,7 +791,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 62
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -811,7 +817,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.064263724, y: 0.6979778, z: 0.06539139, w: -0.71022624}
-  m_LocalPosition: {x: 3.920379, y: 20.113907, z: 52.92606}
+  m_LocalPosition: {x: 5.0490913, y: 26.515156, z: 52.926056}
   m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
   m_Children: []
   m_Father: {fileID: 1093457425}
@@ -960,8 +966,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1223604783}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 21.2, z: 54.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 27.7, z: 54.1}
+  m_LocalScale: {x: 1, y: 1.2, z: 1}
   m_Children:
   - {fileID: 1654709108}
   - {fileID: 473195230}
@@ -1001,9 +1007,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1223604786}
-  speed: 3
+  speed: 5
   jumpSpeed: 2
-  miningSpeed: 2
+  miningSpeed: 4
   myAnimator: {fileID: 1223604784}
   gravity: -9.81
   turnSmoothTime: 0.1
@@ -1348,7 +1354,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1223604785}
   m_Lens:
-    FieldOfView: 62
+    FieldOfView: 70
     OrthographicSize: 5
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -1370,7 +1376,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829572045}
   m_LocalRotation: {x: -4.4408916e-16, y: -0.00000044703478, z: -1.8528843e-22, w: 1}
-  m_LocalPosition: {x: 54.380646, y: 17.32404, z: 13.053841}
+  m_LocalPosition: {x: 54.379612, y: 23.823769, z: 13.1129265}
   m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
   m_Children:
   - {fileID: 623071254}
