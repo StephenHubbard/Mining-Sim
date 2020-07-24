@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float speed = 6f;
     [SerializeField] float jumpSpeed = 6f;
+    [SerializeField] float miningSpeed = 1f;
+
     public Animator myAnimator;
     MineBlock mineBlock;
 
@@ -51,6 +53,11 @@ public class PlayerMovement : MonoBehaviour
         {
             controller.Move(velocity * Time.deltaTime);
         }
+        else
+        {
+            // for controller.isGrounded
+            controller.Move(Vector3.forward * 0.001f);
+        }
 
         if (controller.isGrounded && velocity.y < 0)
         {
@@ -75,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             myAnimator.SetBool("isSwinging", true);
+            myAnimator.speed = miningSpeed;
         }
         else
         {
@@ -82,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Animator function
     public void Hit()
     {
         mineBlock.checkIfMineBlockExists();
