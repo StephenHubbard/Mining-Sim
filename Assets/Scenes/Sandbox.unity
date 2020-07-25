@@ -164,9 +164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 684bb49a790fc3940bde33744c7546f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 100
-  depth: 50
-  heightValue: 39.8
+  width: 50
+  depth: 100
+  heightValue: 30
   smoothnessHeight: 30
   minStoneHeight: 0
   maxStoneHeight: 7
@@ -179,6 +179,10 @@ MonoBehaviour:
   smoothCycles: 2
   randFillPercent: 55
   threshold: 4
+  spreadDiamondsMultiplier: 2
+  diamondRarity: 9
+  spreadRubysMultiplier: 3
+  rubyRarity: 8
 --- !u!1 &473195229
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,7 +823,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.064263724, y: 0.6979778, z: 0.06539139, w: -0.71022624}
-  m_LocalPosition: {x: 5.0490913, y: 26.515156, z: 52.926056}
+  m_LocalPosition: {x: 5.0490913, y: 26.515156, z: 14.426058}
   m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
   m_Children: []
   m_Father: {fileID: 1093457425}
@@ -968,7 +972,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1223604783}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 27.7, z: 54.1}
+  m_LocalPosition: {x: 0, y: 27.7, z: 15.6}
   m_LocalScale: {x: 1, y: 1.2, z: 1}
   m_Children:
   - {fileID: 1654709108}
@@ -1015,6 +1019,72 @@ MonoBehaviour:
   myAnimator: {fileID: 1223604784}
   gravity: -9.81
   turnSmoothTime: 0.1
+--- !u!1 &1316635729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1316635732}
+  - component: {fileID: 1316635731}
+  - component: {fileID: 1316635730}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1316635730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316635729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &1316635731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316635729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &1316635732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316635729}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1331261528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1378,7 +1448,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829572045}
   m_LocalRotation: {x: -4.4408916e-16, y: -0.00000044703478, z: -1.8528843e-22, w: 1}
-  m_LocalPosition: {x: 54.379612, y: 23.823769, z: 13.1129265}
+  m_LocalPosition: {x: 15.885435, y: 23.823772, z: 12.443205}
   m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
   m_Children:
   - {fileID: 623071254}
