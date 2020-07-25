@@ -146,7 +146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122725547}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.3985896, y: -3.6890478, z: -0.87723184}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -166,16 +166,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 100
   depth: 50
+  heightValue: 39.8
+  smoothnessHeight: 30
   minStoneHeight: 0
   maxStoneHeight: 7
   dirt: {fileID: 4340929093494044568, guid: 1e3984938191a624cb20f862b44df4ae, type: 3}
   grass: {fileID: 4340929093494044568, guid: ade396ac71a25c34f9c79b6b1a35c424, type: 3}
   stone: {fileID: 4340929093494044568, guid: ed1fcbcf751f7a04d8281a620d1c0c40, type: 3}
-  heightValue: 39.8
-  smoothnessHeight: 30
+  diamond: {fileID: 4340929093494044568, guid: 7364a9200ecbb114bb56d571fd9969a0, type: 3}
+  ruby: {fileID: 4340929093494044568, guid: 4552bf297df77a841af76cf74b2074bf, type: 3}
   seed: 0
   smoothCycles: 2
-  randFillPercent: 50
+  randFillPercent: 55
   threshold: 4
 --- !u!1 &473195229
 GameObject:
@@ -938,7 +940,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1223604784
 Animator:
   serializedVersion: 3
