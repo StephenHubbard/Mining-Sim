@@ -10,6 +10,11 @@ public class PointPlayerArrow : MonoBehaviour
 
     public Camera mainCam;
 
+    private void Awake()
+    {
+        mainCam = FindObjectOfType<Camera>();
+    }
+
     void Start()
     {
         player = FindObjectOfType<PlayerMovement>();

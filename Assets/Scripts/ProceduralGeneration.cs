@@ -8,9 +8,12 @@ public class ProceduralGeneration : MonoBehaviour
     [SerializeField] int depth;
     [SerializeField] float heightValue, smoothnessHeight;
     [SerializeField] int minStoneHeight, maxStoneHeight;
-    [SerializeField] GameObject dirt, grass, stone, diamond, ruby;
+    [SerializeField] GameObject dirt, grass, stone, diamond, ruby, amethyst;
     [Range(0, 100)]
     [SerializeField] int seed;
+    public GameObject player;
+    public LookAtPlayer myCam;
+    private bool worldIsDestroyed = true;
 
     // Cave Variables
     [SerializeField] int smoothCycles;
@@ -36,26 +39,126 @@ public class ProceduralGeneration : MonoBehaviour
     [Range(0, 10)]
     public int rubyRarity = 0;
 
+    private int amethystStarterInt = 0;
+    [Range(0, 10)]
+    public int spreadAmethystsMultiplier = 3;
+    [Range(0, 10)]
+    public int amethystRarity = 0;
+
+    private int dirtStarterInt = 0;
+    [Range(0, 10)]
+    public int spreadDirtMultiplier = 3;
+    [Range(0, 10)]
+    public int dirtRarity = 0;
+
+    private bool dirtComplete = false;
+    private bool rubyComplete = false;
+    private bool amethystComplete = false;
+    private bool diamondComplete = false;
+
+
     private void Awake()
     {
         seed = Random.Range(0, 1000000);
-        GenerateCaves();
     }
 
     private void Start()
     {
-        Generation();
+
     }
+
 
     private void Update()
     {
-        if (diamondStarterInt < spreadDiamondsMultiplier)
+        spreadMinerals();
+    }
+
+    public void DestroyWorld()
+    {
+        foreach (Transform child in transform)
         {
-            GenDiamonds();
+            Destroy(child.gameObject);
         }
-        if (rubyStarterInt < spreadRubysMultiplier)
+        GameObject player = FindObjectOfType<PlayerMovement>().gameObject;
+        if (player)
         {
-            GenRubys();
+            Destroy(player.gameObject);
+        }
+
+        worldIsDestroyed = true;
+    }
+
+    public void GenerateWorld()
+    {
+        if (worldIsDestroyed == true)
+        {
+            Instantiate(player, new Vector3(0, 25, 25), Quaternion.identity);
+            player.transform.position = new Vector3(0, 27, 15);
+            dirtStarterInt = 0;
+            diamondStarterInt = 0;
+            amethystStarterInt = 0;
+            rubyStarterInt = 0;
+            GenerateCaves();
+            Generation();
+        
+            myCam = FindObjectOfType<LookAtPlayer>();
+            myCam.lockCameraToPlayer();
+        }
+        worldIsDestroyed = false;
+    }
+
+    private void spreadMinerals()
+    {
+        if (dirtStarterInt < spreadDirtMultiplier)
+        {
+            GenGems(dirt, "Dirt(Clone)", dirtRarity);
+            dirtStarterInt++;
+        }
+        else
+        {
+            dirtComplete = true;
+        }
+
+        if (amethystStarterInt < spreadAmethystsMultiplier && dirtComplete == true)
+        {
+            GenGems(amethyst, "Amethyst(Clone)", amethystRarity);
+            amethystStarterInt++;
+        }
+        else if (dirtComplete == false)
+        {
+            return;
+        }
+        else 
+        {
+            amethystComplete = true;
+        }
+
+        if (rubyStarterInt < spreadRubysMultiplier && amethystComplete == true)
+        {
+            GenGems(ruby, "Ruby(Clone)", rubyRarity);
+            rubyStarterInt++;
+        }
+        else if (amethystComplete == false)
+        {
+            return;
+        }
+        else
+        {
+            rubyComplete = true;
+        }
+        
+        if (diamondStarterInt < spreadDiamondsMultiplier && rubyComplete == true)
+        {
+            GenGems(diamond, "Diamond(Clone)", diamondRarity);
+            diamondStarterInt++;
+        }
+        else if (rubyComplete == false)
+        {
+            return;
+        }
+        else
+        {
+            diamondComplete = true;
         }
     }
 
@@ -173,14 +276,22 @@ public class ProceduralGeneration : MonoBehaviour
 
         for (int y = 0; y < depth; y++)
         {
-            int mineralGen = Random.Range(1, 101);
-            if (cavePoints[z, y] == 1 && mineralGen == 100)
+            int mineralGen = Random.Range(0, 101);
+            if (cavePoints[z, y] == 1 && mineralGen == 1 && y > 70)
             {
                 spawnObj(diamond, -y, z);
             }
-            else if (cavePoints[z, y] == 1 && mineralGen == 99)
+            else if (cavePoints[z, y] == 1 && mineralGen == 2 && y > 40)
             {
                 spawnObj(ruby, -y, z);
+            }
+            else if (cavePoints[z, y] == 1 && mineralGen == 3 && y < 70)
+            {
+                spawnObj(amethyst, -y, z);
+            }
+            else if (cavePoints[z, y] == 1 && mineralGen > 90)
+            {
+                spawnObj(dirt, -y, z);
             }
             else if (cavePoints[z, y] == 1)
             {
@@ -190,9 +301,8 @@ public class ProceduralGeneration : MonoBehaviour
 
     }
 
-    private void GenDiamonds()
+    private void GenGems(GameObject gem, string gemString, int gemRarity)
     {
-        diamondStarterInt++;
         for (int z = 0; z < width; z++)
         {
             for (int y = 0; y < depth; y++)
@@ -201,72 +311,28 @@ public class ProceduralGeneration : MonoBehaviour
                 Collider[] getBlockType = Physics.OverlapSphere(mineralLocation, 0.1f);
                 if (getBlockType.Length > 0)
                 {
-                    if (getBlockType[0].gameObject.GetComponent<Diamond>())
+                    if (getBlockType[0].gameObject.name == gemString)
                     {
-                        Vector3 diamondLocation = getBlockType[0].gameObject.transform.position;
-                        Collider[] diamondIsTouching = Physics.OverlapSphere(diamondLocation, .6f);
-                        if (diamondIsTouching.Length > 0)
+                        Vector3 gemLocation = getBlockType[0].gameObject.transform.position;
+                        Collider[] gemIsTouching = Physics.OverlapSphere(gemLocation, .6f);
+                        if (gemIsTouching.Length > 0)
                         {
 
-                            for (int i = 0; i < diamondIsTouching.Length; i++)
+                            for (int i = 0; i < gemIsTouching.Length; i++)
                             {
-                                if (!diamondIsTouching[i].gameObject.GetComponent<Diamond>())
+                                if (gemIsTouching[i].gameObject.name != gemString)
                                 {
-                                    bool shouldSpreadDiamond = false;
-                                    if (Random.Range(0, diamondRarity) == 1)
+                                    bool shouldSpreadGem = false;
+                                    if (Random.Range(0, gemRarity) == 1)
                                     {
-                                        shouldSpreadDiamond = true;
+                                        shouldSpreadGem = true;
                                     }
 
-                                    if (shouldSpreadDiamond == true)
+                                    if (shouldSpreadGem == true)
                                     {
-                                        GameObject newDiamond = Instantiate(diamond, diamondIsTouching[i].transform.position, Quaternion.identity);
-                                        newDiamond.transform.parent = this.transform;
-                                        Destroy(diamondIsTouching[i].gameObject);
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void GenRubys()
-    {
-        rubyStarterInt++;
-        for (int z = 0; z < width; z++)
-        {
-            for (int y = 0; y < depth; y++)
-            {
-                Vector3 mineralLocation = new Vector3(0, -y, z);
-                Collider[] getBlockType = Physics.OverlapSphere(mineralLocation, 0.1f);
-                if (getBlockType.Length > 0)
-                {
-                    if (getBlockType[0].gameObject.GetComponent<Ruby>())
-                    {
-                        Vector3 rubyLocation = getBlockType[0].gameObject.transform.position;
-                        Collider[] rubyIsTouching = Physics.OverlapSphere(rubyLocation, .6f);
-                        if (rubyIsTouching.Length > 0)
-                        {
-
-                            for (int i = 0; i < rubyIsTouching.Length; i++)
-                            {
-                                if (!rubyIsTouching[i].gameObject.GetComponent<Ruby>())
-                                {
-                                    bool shouldSpreadruby = false;
-                                    if (Random.Range(0, rubyRarity) == 1)
-                                    {
-                                        shouldSpreadruby = true;
-                                    }
-
-                                    if (shouldSpreadruby == true)
-                                    {
-                                        GameObject newRuby = Instantiate(ruby, rubyIsTouching[i].transform.position, Quaternion.identity);
-                                        newRuby.transform.parent = this.transform;
-                                        Destroy(rubyIsTouching[i].gameObject);
+                                        GameObject newGem = Instantiate(gem, gemIsTouching[i].transform.position, Quaternion.identity);
+                                        newGem.transform.parent = this.transform;
+                                        Destroy(gemIsTouching[i].gameObject);
                                     }
 
                                 }
