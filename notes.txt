@@ -1,2 +1,3 @@
-fix mining below you bug
-do some basic prodcedural animation (saved youtube tutorial)
+jumping bug
+
+try generating chunks

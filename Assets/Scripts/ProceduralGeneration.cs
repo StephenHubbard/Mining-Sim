@@ -12,6 +12,7 @@ public class ProceduralGeneration : MonoBehaviour
     [Range(0, 100)]
     [SerializeField] int seed;
     public GameObject player;
+    public PlayerMovement playerTransform;
     public LookAtPlayer myCam;
     private bool worldIsDestroyed = true;
 
@@ -71,6 +72,18 @@ public class ProceduralGeneration : MonoBehaviour
     private void Update()
     {
         spreadMinerals();
+        checkPlayerLocation();
+    }
+
+    private void checkPlayerLocation()
+    {
+        if (worldIsDestroyed == false)
+        {
+            PlayerMovement playerTransform = FindObjectOfType<PlayerMovement>();
+
+            print(playerTransform.transform.position);
+        }
+        
     }
 
     public void DestroyWorld()
