@@ -8,7 +8,9 @@ public class ProceduralGeneration : MonoBehaviour
     [SerializeField] int depth;
     [SerializeField] float heightValue, smoothnessHeight;
     [SerializeField] int minStoneHeight, maxStoneHeight;
+    [SerializeField] int chunks;
     [SerializeField] GameObject dirt, grass, stone, diamond, ruby, amethyst;
+    [SerializeField] GameObject chunkPrefab;
     [Range(0, 100)]
     [SerializeField] int seed;
     public GameObject player;
@@ -61,30 +63,68 @@ public class ProceduralGeneration : MonoBehaviour
     private void Awake()
     {
         seed = Random.Range(0, 1000000);
+        GenerateCaves();
+
     }
 
     private void Start()
     {
-
     }
 
 
     private void Update()
     {
         spreadMinerals();
-        checkPlayerLocation();
     }
 
-    private void checkPlayerLocation()
+    public void genChunks()
     {
-        if (worldIsDestroyed == false)
+        for (int i = 0; i < chunks; i++)
         {
-            PlayerMovement playerTransform = FindObjectOfType<PlayerMovement>();
+            // chunks are 20x20
+            int column = Mathf.RoundToInt(Mathf.Ceil(i % 3));
+            int row = Mathf.RoundToInt(Mathf.Ceil(i / 3));
+            int spawnColumn = column * 20;
+            int spawnRow = -row * 20;
+            GameObject chunk = Instantiate(chunkPrefab, new Vector3(0, spawnRow, spawnColumn), Quaternion.identity);
+            chunk.transform.parent = this.transform;
+            chunk.name = "Chunk " + (column) + " x " + (row);
 
-            print(playerTransform.transform.position);
+            genSingleChunk(spawnColumn, spawnRow, chunk);
         }
-        
     }
+
+    public void genSingleChunk(int spawnColumn, int spawnRow, GameObject chunk)
+    {
+        for (int z = 0; z < 20; z++)
+        {
+            GameObject newBlockX = Instantiate(dirt, new Vector3(0, spawnRow, spawnColumn + z), Quaternion.identity);
+            newBlockX.transform.parent = chunk.transform;
+
+            for (int y = 1; y < 20; y++)
+            {
+                GameObject newBlockY = Instantiate(dirt, new Vector3(0, spawnRow - y, spawnColumn + z), Quaternion.identity);
+                newBlockY.transform.parent = chunk.transform;
+            }
+
+        }
+
+        Transform thisChunk = chunk.transform;
+        foreach (Transform child in thisChunk)
+        {
+            child.gameObject.SetActive(false);
+        }
+    }
+
+
+    public void SpawnPlayer()
+    {
+        Instantiate(player, new Vector3(0, 5, 30), Quaternion.identity);
+        myCam = FindObjectOfType<LookAtPlayer>();
+        myCam.lockCameraToPlayer();
+    }
+
+    
 
     public void DestroyWorld()
     {
@@ -105,13 +145,11 @@ public class ProceduralGeneration : MonoBehaviour
     {
         if (worldIsDestroyed == true)
         {
-            Instantiate(player, new Vector3(0, 25, 25), Quaternion.identity);
-            player.transform.position = new Vector3(0, 27, 15);
+            Instantiate(player, new Vector3(0, 5, 30), Quaternion.identity);
             dirtStarterInt = 0;
             diamondStarterInt = 0;
             amethystStarterInt = 0;
             rubyStarterInt = 0;
-            GenerateCaves();
             Generation();
         
             myCam = FindObjectOfType<LookAtPlayer>();

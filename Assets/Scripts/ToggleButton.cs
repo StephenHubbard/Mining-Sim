@@ -18,6 +18,5 @@ public class ToggleButton : MonoBehaviour
 
     public void toggleCollideButton()
     {
-        FindObjectOfType<RenderChunks>().toggleCollide();
     }
 }
